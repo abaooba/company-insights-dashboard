@@ -3,16 +3,19 @@ import { Activity } from "lucide-react";
 import AnalyzeCompanyForm from "@/components/analysis/AnalyzeCompanyForm";
 import ResultsPanel from "@/components/analysis/ResultsPanel";
 import LoadingState from "@/components/analysis/LoadingState";
+import ErrorState from "@/components/analysis/ErrorState";
 import { analyzeCompany } from "@/lib/analysisService";
 import type { AnalysisFormData, AnalysisResult, AnalysisStatus } from "@/types/analysis";
 
 const Index = () => {
   const [status, setStatus] = useState<AnalysisStatus>("idle");
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [lastFormData, setLastFormData] = useState<AnalysisFormData | null>(null);
 
   const handleAnalyze = useCallback(async (data: AnalysisFormData) => {
     setStatus("loading");
     setResult(null);
+    setLastFormData(data);
 
     try {
       const analysis = await analyzeCompany(data);
@@ -22,6 +25,12 @@ const Index = () => {
       setStatus("error");
     }
   }, []);
+
+  const handleRetry = useCallback(() => {
+    if (lastFormData) {
+      handleAnalyze(lastFormData);
+    }
+  }, [lastFormData, handleAnalyze]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -59,11 +68,7 @@ const Index = () => {
             )}
             {status === "loading" && <LoadingState />}
             {status === "success" && result && <ResultsPanel result={result} />}
-            {status === "error" && (
-              <div className="flex items-center justify-center h-full text-destructive">
-                <p className="text-sm font-mono">Analysis failed. Please try again.</p>
-              </div>
-            )}
+            {status === "error" && <ErrorState onRetry={handleRetry} />}
           </section>
         </div>
       </main>
