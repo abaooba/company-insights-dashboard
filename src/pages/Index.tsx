@@ -68,11 +68,7 @@ const Index = () => {
             )}
             {status === "loading" && <LoadingState />}
             {status === "success" && result && <ResultsPanel result={result} />}
-            {status === "error" && (
-              <div className="flex items-center justify-center h-full text-destructive">
-                <p className="text-sm font-mono">Analysis failed. Please try again.</p>
-              </div>
-            )}
+            {status === "error" && <ErrorState onRetry={handleRetry} />}
           </section>
         </div>
       </main>
