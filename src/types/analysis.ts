@@ -42,7 +42,7 @@ export const SCORE_CATEGORIES: Record<ScoreCategory, string> = {
   geopolitics: "Geopolitics",
 };
 
-// ── Backend response types (snake_case, mirrors Python API) ────
+// ── Backend response type (snake_case, mirrors Python API) ─────
 
 export interface BackendScores {
   financial: number;
@@ -53,14 +53,10 @@ export interface BackendScores {
 }
 
 export interface BackendAnalysisResponse {
-  company_name: string;
-  ticker: string | null;
   overall_score: number;
-  max_score: number;
   scores: BackendScores;
   strengths: string[];
   weaknesses: string[];
   recent_changes: string[];
   summary: string;
-  analyzed_at: string;
 }
