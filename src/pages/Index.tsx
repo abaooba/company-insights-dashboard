@@ -3,27 +3,24 @@ import { Activity } from "lucide-react";
 import AnalyzeCompanyForm from "@/components/analysis/AnalyzeCompanyForm";
 import ResultsPanel from "@/components/analysis/ResultsPanel";
 import LoadingState from "@/components/analysis/LoadingState";
-import { MOCK_API_RESPONSE } from "@/data/mockApiResponse";
+import { analyzeCompany } from "@/lib/api";
 import type { AnalysisFormData, AnalysisResult, AnalysisStatus } from "@/types/analysis";
 
 const Index = () => {
   const [status, setStatus] = useState<AnalysisStatus>("idle");
   const [result, setResult] = useState<AnalysisResult | null>(null);
 
-  const handleAnalyze = useCallback((data: AnalysisFormData) => {
+  const handleAnalyze = useCallback(async (data: AnalysisFormData) => {
     setStatus("loading");
     setResult(null);
 
-    // Simulate API call — will be replaced with real backend call
-    setTimeout(() => {
-      setResult({
-        ...MOCK_API_RESPONSE,
-        companyName: data.companyName,
-        ticker: data.ticker || null,
-        analyzedAt: new Date().toISOString(),
-      });
+    try {
+      const analysis = await analyzeCompany(data);
+      setResult(analysis);
       setStatus("success");
-    }, 3000);
+    } catch {
+      setStatus("error");
+    }
   }, []);
 
   return (
@@ -62,6 +59,11 @@ const Index = () => {
             )}
             {status === "loading" && <LoadingState />}
             {status === "success" && result && <ResultsPanel result={result} />}
+            {status === "error" && (
+              <div className="flex items-center justify-center h-full text-destructive">
+                <p className="text-sm font-mono">Analysis failed. Please try again.</p>
+              </div>
+            )}
           </section>
         </div>
       </main>

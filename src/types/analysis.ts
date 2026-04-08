@@ -1,3 +1,5 @@
+// ── Frontend types (camelCase) ──────────────────────────────────
+
 export interface AnalysisFormData {
   companyName: string;
   ticker: string;
@@ -39,3 +41,26 @@ export const SCORE_CATEGORIES: Record<ScoreCategory, string> = {
   moat: "Moat",
   geopolitics: "Geopolitics",
 };
+
+// ── Backend response types (snake_case, mirrors Python API) ────
+
+export interface BackendScores {
+  financial: number;
+  risk: number;
+  business_model: number;
+  moat: number;
+  geopolitical: number;
+}
+
+export interface BackendAnalysisResponse {
+  company_name: string;
+  ticker: string | null;
+  overall_score: number;
+  max_score: number;
+  scores: BackendScores;
+  strengths: string[];
+  weaknesses: string[];
+  recent_changes: string[];
+  summary: string;
+  analyzed_at: string;
+}
