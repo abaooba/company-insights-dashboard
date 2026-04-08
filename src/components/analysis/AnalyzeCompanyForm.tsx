@@ -4,12 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import type { AnalysisFormData } from "@/types/analysis";
 
-interface AnalysisFormProps {
+interface AnalyzeCompanyFormProps {
   onSubmit: (data: AnalysisFormData) => void;
   isLoading: boolean;
 }
 
-const AnalysisForm = ({ onSubmit, isLoading }: AnalysisFormProps) => {
+const AnalyzeCompanyForm = ({ onSubmit, isLoading }: AnalyzeCompanyFormProps) => {
   const [formData, setFormData] = useState<AnalysisFormData>({
     companyName: "",
     ticker: "",
@@ -74,4 +74,4 @@ const AnalysisForm = ({ onSubmit, isLoading }: AnalysisFormProps) => {
   );
 };
 
-export default AnalysisForm;
+export default AnalyzeCompanyForm;

@@ -1,6 +1,10 @@
 import type { AnalysisResult } from "@/types/analysis";
 
-export const PLACEHOLDER_RESULT: AnalysisResult = {
+/**
+ * Mock API response matching the shape returned by the Python analysis engine.
+ * Replace this with a real fetch call once the backend is connected.
+ */
+export const MOCK_API_RESPONSE: AnalysisResult = {
   companyName: "Acme Corp",
   ticker: "ACME",
   overallScore: 78,
