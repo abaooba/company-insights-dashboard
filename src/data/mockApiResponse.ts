@@ -1,15 +1,12 @@
 import type { BackendAnalysisResponse } from "@/types/analysis";
 
 /**
- * Mock API response matching the snake_case shape returned by the Python
+ * Mock API response matching the exact shape returned by the Python
  * analysis engine. Replace the fetch call in analyzeCompany() once the
  * backend is live.
  */
 export const MOCK_BACKEND_RESPONSE: BackendAnalysisResponse = {
-  company_name: "Acme Corp",
-  ticker: "ACME",
   overall_score: 78,
-  max_score: 100,
   scores: {
     financial: 82,
     risk: 65,
@@ -35,5 +32,4 @@ export const MOCK_BACKEND_RESPONSE: BackendAnalysisResponse = {
   ],
   summary:
     "Acme Corp demonstrates strong fundamentals with a defensible market position and healthy financials. The company's moat is built on proprietary technology and high switching costs. Key risks include geographic concentration and emerging regulatory headwinds in the EU. Recent earnings momentum and leadership changes suggest an inflection point in corporate strategy.",
-  analyzed_at: new Date().toISOString(),
 };

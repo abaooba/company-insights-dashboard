@@ -23,18 +23,11 @@ export async function analyzeCompany(data: AnalysisFormData): Promise<AnalysisRe
   }
 
   const raw: BackendAnalysisResponse = await res.json();
-  return transformBackendResponse(raw);
+  return transformBackendResponse(raw, data);
   */
 
   // ── Mock implementation ──
   await new Promise((resolve) => setTimeout(resolve, 3000));
 
-  const raw: BackendAnalysisResponse = {
-    ...MOCK_BACKEND_RESPONSE,
-    company_name: data.companyName,
-    ticker: data.ticker || null,
-    analyzed_at: new Date().toISOString(),
-  };
-
-  return transformBackendResponse(raw);
+  return transformBackendResponse(MOCK_BACKEND_RESPONSE, data);
 }
