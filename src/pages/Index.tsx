@@ -10,10 +10,12 @@ import type { AnalysisFormData, AnalysisResult, AnalysisStatus } from "@/types/a
 const Index = () => {
   const [status, setStatus] = useState<AnalysisStatus>("idle");
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [lastFormData, setLastFormData] = useState<AnalysisFormData | null>(null);
 
   const handleAnalyze = useCallback(async (data: AnalysisFormData) => {
     setStatus("loading");
     setResult(null);
+    setLastFormData(data);
 
     try {
       const analysis = await analyzeCompany(data);
@@ -23,6 +25,12 @@ const Index = () => {
       setStatus("error");
     }
   }, []);
+
+  const handleRetry = useCallback(() => {
+    if (lastFormData) {
+      handleAnalyze(lastFormData);
+    }
+  }, [lastFormData, handleAnalyze]);
 
   return (
     <div className="min-h-screen bg-background">
