@@ -3,7 +3,7 @@ import { Activity } from "lucide-react";
 import AnalyzeCompanyForm from "@/components/analysis/AnalyzeCompanyForm";
 import ResultsPanel from "@/components/analysis/ResultsPanel";
 import LoadingState from "@/components/analysis/LoadingState";
-import { analyzeCompany } from "@/lib/api";
+import { analyzeCompany } from "@/lib/analysisService";
 import type { AnalysisFormData, AnalysisResult, AnalysisStatus } from "@/types/analysis";
 
 const Index = () => {
