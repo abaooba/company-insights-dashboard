@@ -1,21 +1,22 @@
-import type { AnalysisResult } from "@/types/analysis";
+import type { BackendAnalysisResponse } from "@/types/analysis";
 
 /**
- * Mock API response matching the shape returned by the Python analysis engine.
- * Replace this with a real fetch call once the backend is connected.
+ * Mock API response matching the snake_case shape returned by the Python
+ * analysis engine. Replace the fetch call in analyzeCompany() once the
+ * backend is live.
  */
-export const MOCK_API_RESPONSE: AnalysisResult = {
-  companyName: "Acme Corp",
+export const MOCK_BACKEND_RESPONSE: BackendAnalysisResponse = {
+  company_name: "Acme Corp",
   ticker: "ACME",
-  overallScore: 78,
-  maxScore: 100,
-  subScores: [
-    { category: "financials", label: "Financials", score: 82, maxScore: 100 },
-    { category: "risk", label: "Risk", score: 65, maxScore: 100 },
-    { category: "businessModel", label: "Business Model", score: 88, maxScore: 100 },
-    { category: "moat", label: "Moat", score: 74, maxScore: 100 },
-    { category: "geopolitics", label: "Geopolitics", score: 71, maxScore: 100 },
-  ],
+  overall_score: 78,
+  max_score: 100,
+  scores: {
+    financial: 82,
+    risk: 65,
+    business_model: 88,
+    moat: 74,
+    geopolitical: 71,
+  },
   strengths: [
     "Strong recurring revenue with 95% retention rate",
     "Market leader in core segment with 34% share",
@@ -27,12 +28,12 @@ export const MOCK_API_RESPONSE: AnalysisResult = {
     "Key-person dependency on founding team",
     "Margin compression from rising input costs",
   ],
-  recentChanges: [
+  recent_changes: [
     "Q4 earnings beat consensus by 12% — driven by enterprise expansion",
     "New CFO appointment signals strategic shift toward M&A",
     "Regulatory review initiated in EU market",
   ],
   summary:
     "Acme Corp demonstrates strong fundamentals with a defensible market position and healthy financials. The company's moat is built on proprietary technology and high switching costs. Key risks include geographic concentration and emerging regulatory headwinds in the EU. Recent earnings momentum and leadership changes suggest an inflection point in corporate strategy.",
-  analyzedAt: new Date().toISOString(),
+  analyzed_at: new Date().toISOString(),
 };
