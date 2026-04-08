@@ -47,7 +47,9 @@ const ResultsPanel = ({ result }: ResultsPanelProps) => {
         <WeaknessesList items={result.weaknesses} />
       </div>
 
-      <RecentChangesList items={result.recentChanges} />
+      {result.recentChanges.length > 0 && (
+        <RecentChangesList items={result.recentChanges} />
+      )}
 
       {/* Summary */}
       <SummaryCard summary={result.summary} />
