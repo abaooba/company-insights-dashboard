@@ -1,9 +1,9 @@
 import { useState, useCallback } from "react";
 import { Activity } from "lucide-react";
-import AnalysisForm from "@/components/analysis/AnalysisForm";
+import AnalyzeCompanyForm from "@/components/analysis/AnalyzeCompanyForm";
 import ResultsPanel from "@/components/analysis/ResultsPanel";
 import LoadingState from "@/components/analysis/LoadingState";
-import { PLACEHOLDER_RESULT } from "@/data/placeholder";
+import { MOCK_API_RESPONSE } from "@/data/mockApiResponse";
 import type { AnalysisFormData, AnalysisResult, AnalysisStatus } from "@/types/analysis";
 
 const Index = () => {
@@ -17,7 +17,7 @@ const Index = () => {
     // Simulate API call — will be replaced with real backend call
     setTimeout(() => {
       setResult({
-        ...PLACEHOLDER_RESULT,
+        ...MOCK_API_RESPONSE,
         companyName: data.companyName,
         ticker: data.ticker || null,
         analyzedAt: new Date().toISOString(),
@@ -28,7 +28,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container max-w-6xl flex items-center gap-3 h-14 px-4">
           <Activity className="h-5 w-5 text-primary" />
@@ -41,10 +40,8 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Main */}
       <main className="container max-w-6xl px-4 py-8">
         <div className="grid gap-8 lg:grid-cols-[340px_1fr]">
-          {/* Sidebar — Form */}
           <aside className="space-y-6">
             <div>
               <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
@@ -54,10 +51,9 @@ const Index = () => {
                 Enter a company to score across financials, risk, moat, and more.
               </p>
             </div>
-            <AnalysisForm onSubmit={handleAnalyze} isLoading={status === "loading"} />
+            <AnalyzeCompanyForm onSubmit={handleAnalyze} isLoading={status === "loading"} />
           </aside>
 
-          {/* Results area */}
           <section className="min-h-[400px]">
             {status === "idle" && (
               <div className="flex items-center justify-center h-full text-muted-foreground/30">
