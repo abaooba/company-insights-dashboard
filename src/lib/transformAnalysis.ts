@@ -4,8 +4,8 @@ const MAX_SCORE = 100;
 
 /**
  * Transforms the snake_case backend response into the camelCase
- * shape consumed by frontend components. Enriches with form data
- * (company name / ticker) since the backend doesn't echo those back.
+ * shape consumed by frontend components. Uses company_name/ticker
+ * from the backend response, falling back to form data.
  */
 export function transformBackendResponse(
   raw: BackendAnalysisResponse,
@@ -20,8 +20,9 @@ export function transformBackendResponse(
   ];
 
   return {
-    companyName: formData.companyName,
-    ticker: formData.ticker || null,
+    companyCik: raw.company_cik,
+    companyName: raw.company_name || formData.companyName,
+    ticker: raw.ticker || formData.ticker || null,
     overallScore: raw.overall_score,
     maxScore: MAX_SCORE,
     subScores,
@@ -29,6 +30,7 @@ export function transformBackendResponse(
     weaknesses: raw.weaknesses,
     recentChanges: raw.recent_changes,
     summary: raw.summary,
+    details: raw.details,
     analyzedAt: new Date().toISOString(),
   };
 }
