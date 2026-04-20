@@ -31,6 +31,7 @@ export function transformBackendResponse(
     recentChanges: raw.recent_changes,
     summary: raw.summary,
     details: raw.details,
+    llmAnalysis: raw.llm_analysis ?? null,
     analyzedAt: new Date().toISOString(),
   };
 }

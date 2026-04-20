@@ -5,6 +5,7 @@ import StrengthsList from "./StrengthsList";
 import WeaknessesList from "./WeaknessesList";
 import RecentChangesList from "./RecentChangesList";
 import SummaryCard from "./SummaryCard";
+import LlmAnalysisCard from "./LlmAnalysisCard";
 import type { AnalysisResult } from "@/types/analysis";
 
 interface ResultsPanelProps {
@@ -40,6 +41,9 @@ const ResultsPanel = ({ result }: ResultsPanelProps) => {
         maxScore={result.maxScore}
         subScores={result.subScores}
       />
+
+      {/* LLM Analysis */}
+      {result.llmAnalysis && <LlmAnalysisCard analysis={result.llmAnalysis} />}
 
       {/* Lists */}
       <div className="grid gap-4 md:grid-cols-2">

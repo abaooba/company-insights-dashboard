@@ -19,6 +19,15 @@ export interface SubScore {
   maxScore: number;
 }
 
+export interface LlmAnalysis {
+  investment_thesis?: string;
+  enhanced_summary?: string;
+  key_strengths?: string[];
+  key_risks?: string[];
+  red_flags?: string[];
+  score_commentary?: string;
+}
+
 export interface AnalysisResult {
   companyCik: string;
   companyName: string;
@@ -31,6 +40,7 @@ export interface AnalysisResult {
   recentChanges: string[];
   summary: string;
   details: BackendDetails;
+  llmAnalysis: LlmAnalysis | null;
   analyzedAt: string;
 }
 
@@ -162,4 +172,5 @@ export interface BackendAnalysisResponse {
   recent_changes: string[];
   summary: string;
   details: BackendDetails;
+  llm_analysis?: LlmAnalysis | null;
 }
