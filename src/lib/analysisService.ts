@@ -5,29 +5,20 @@ import type {
   BackendAnalysisResponse,
 } from "@/types/analysis";
 import { transformBackendResponse } from "@/lib/transformAnalysis";
-import { MOCK_BACKEND_RESPONSE } from "@/data/mockApiResponse";
 
-// TODO: Replace with real API base URL
-// const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
+const API_BASE = "https://sec-analyzer-g9m4.onrender.com";
 
-/** Maps frontend form data to the snake_case request the backend expects. */
 function buildRequest(data: AnalysisFormData): BackendAnalysisRequest {
   return { company_name: data.companyName, ticker: data.ticker || null };
 }
 
-/**
- * Calls the analysis backend. Currently returns mock data.
- * When the Python backend is ready, uncomment the fetch block below.
- */
 export async function analyzeCompany(data: AnalysisFormData): Promise<AnalysisResult> {
-  const _request = buildRequest(data);
+  const request = buildRequest(data);
 
-  /*
-  // ── Real implementation (uncomment when backend is ready) ──
   const res = await fetch(`${API_BASE}/analyze`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(_request),
+    body: JSON.stringify(request),
   });
 
   if (!res.ok) {
@@ -36,10 +27,4 @@ export async function analyzeCompany(data: AnalysisFormData): Promise<AnalysisRe
 
   const raw: BackendAnalysisResponse = await res.json();
   return transformBackendResponse(raw, data);
-  */
-
-  // ── Mock implementation ──
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
-  return transformBackendResponse(MOCK_BACKEND_RESPONSE, data);
 }
