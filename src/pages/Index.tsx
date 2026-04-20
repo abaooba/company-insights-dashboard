@@ -38,7 +38,7 @@ const Index = () => {
         <div className="container max-w-6xl flex items-center gap-3 h-14 px-4">
           <Activity className="h-5 w-5 text-primary" />
           <h1 className="text-lg font-bold tracking-tight text-foreground">
-            Company Analysis Engine
+            SEC Analyzer
           </h1>
           <span className="ml-auto text-xs font-mono text-muted-foreground/50 hidden sm:block">
             v0.1 — frontend only
