@@ -42,6 +42,9 @@ const ResultsPanel = ({ result }: ResultsPanelProps) => {
         subScores={result.subScores}
       />
 
+      {/* LLM Analysis */}
+      {result.llmAnalysis && <LlmAnalysisCard analysis={result.llmAnalysis} />}
+
       {/* Lists */}
       <div className="grid gap-4 md:grid-cols-2">
         <StrengthsList items={result.strengths} />
