@@ -5,6 +5,7 @@ import StrengthsList from "./StrengthsList";
 import WeaknessesList from "./WeaknessesList";
 import RecentChangesList from "./RecentChangesList";
 import SummaryCard from "./SummaryCard";
+import LlmAnalysisCard from "./LlmAnalysisCard";
 import type { AnalysisResult } from "@/types/analysis";
 
 interface ResultsPanelProps {
