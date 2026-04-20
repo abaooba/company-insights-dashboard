@@ -172,4 +172,5 @@ export interface BackendAnalysisResponse {
   recent_changes: string[];
   summary: string;
   details: BackendDetails;
+  llm_analysis?: LlmAnalysis | null;
 }
