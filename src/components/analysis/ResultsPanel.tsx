@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import ScoreCardGrid from "./ScoreCardGrid";
+import ConfidenceBadge from "./ConfidenceBadge";
+import ScoreTrajectoryChart from "./ScoreTrajectoryChart";
+import ContradictionsCallout from "./ContradictionsCallout";
+import ForensicFlags from "./ForensicFlags";
 import StrengthsList from "./StrengthsList";
 import WeaknessesList from "./WeaknessesList";
 import RecentChangesList from "./RecentChangesList";
@@ -26,13 +30,14 @@ const ResultsPanel = ({ result }: ResultsPanelProps) => {
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       {/* Header */}
-      <motion.div variants={item} className="flex items-baseline gap-3">
+      <motion.div variants={item} className="flex flex-wrap items-center gap-3">
         <h2 className="text-2xl font-bold text-foreground">{result.companyName}</h2>
         {result.ticker && (
           <Badge variant="outline" className="font-mono text-primary border-primary/30">
             {result.ticker}
           </Badge>
         )}
+        {result.confidence && <ConfidenceBadge confidence={result.confidence} />}
       </motion.div>
 
       {/* Scores */}
@@ -41,6 +46,15 @@ const ResultsPanel = ({ result }: ResultsPanelProps) => {
         maxScore={result.maxScore}
         subScores={result.subScores}
       />
+
+      {/* Score trajectory across recent annual filings */}
+      {result.scoreTrajectory && <ScoreTrajectoryChart trajectory={result.scoreTrajectory} />}
+
+      {/* Caveats: internal tensions + forensic red flags (kept out of the blended score) */}
+      {result.contradictions.length > 0 && (
+        <ContradictionsCallout contradictions={result.contradictions} />
+      )}
+      {result.forensic && <ForensicFlags forensic={result.forensic} />}
 
       {/* LLM Analysis */}
       {result.llmAnalysis && <LlmAnalysisCard analysis={result.llmAnalysis} />}

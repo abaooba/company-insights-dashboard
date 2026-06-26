@@ -12,6 +12,62 @@ export const MOCK_BACKEND_RESPONSE: BackendAnalysisResponse = {
     moat: 35.0,
     geopolitical: 13.36,
   },
+  confidence: {
+    score: 85,
+    level: "high",
+    factors: {
+      risk_factors_text: true,
+      business_text: true,
+      mdna_text: true,
+      financial_metrics_present: 14,
+      year_over_year_data: true,
+      news_articles_analyzed: 70,
+    },
+  },
+  forensic: {
+    total_forensic_score: 6.0,
+    flags: ["impairment", "related_party"],
+    category_scores: {
+      going_concern: 0,
+      restatement: 0,
+      material_weakness: 0,
+      impairment: 4.0,
+      related_party: 2.0,
+      liquidity_covenant: 0,
+      sec_investigation: 0,
+      auditor_change: 0,
+    },
+    matched_keywords: {
+      impairment: { impairment: 3, "write-down": 1 },
+      related_party: { "related party": 1 },
+    },
+    evidence_sentences: {
+      impairment: [
+        "We recorded an impairment charge of $1.2 billion related to certain long-lived assets during the fiscal year.",
+        "Goodwill is tested for impairment annually and whenever events indicate the carrying amount may not be recoverable.",
+      ],
+      related_party: [
+        "Transactions with related parties were conducted in the ordinary course of business and on arm's-length terms.",
+      ],
+    },
+  },
+  score_trajectory: {
+    points: [
+      { filing_date: "2023-09-30", form: "10-K", risk: 5, business_model: 50, moat: 30 },
+      { filing_date: "2024-09-28", form: "10-K", risk: 2, business_model: 50, moat: 33 },
+      { filing_date: "2025-09-27", form: "10-K", risk: 0, business_model: 50, moat: 35 },
+    ],
+    filings_compared: 3,
+    trends: {
+      risk: { change: -2, direction: "down" },
+      business_model: { change: 0, direction: "flat" },
+      moat: { change: 2, direction: "up" },
+    },
+  },
+  contradictions: [
+    "Overall score (74) stays high despite 2 forensic red flag(s) (impairment, related_party) — those flags sit outside the blended score, so weigh them separately.",
+    "Moat language strengthened year over year while the business-model score held flat — a partial, not broad, improvement.",
+  ],
   strengths: [
     "Strong overall financial quality.",
     "Business generates strong cash flow.",
