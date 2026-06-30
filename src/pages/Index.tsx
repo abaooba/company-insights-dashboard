@@ -1,50 +1,18 @@
-import { useState, useCallback } from "react";
-import { Activity } from "lucide-react";
+import SiteHeader from "@/components/SiteHeader";
 import AnalyzeCompanyForm from "@/components/analysis/AnalyzeCompanyForm";
 import ResultsPanel from "@/components/analysis/ResultsPanel";
 import LoadingState from "@/components/analysis/LoadingState";
 import ErrorState from "@/components/analysis/ErrorState";
-import { analyzeCompany } from "@/lib/analysisService";
-import type { AnalysisFormData, AnalysisResult, AnalysisStatus } from "@/types/analysis";
+import { useAnalysisJob } from "@/lib/backgroundJobs";
 
 const Index = () => {
-  const [status, setStatus] = useState<AnalysisStatus>("idle");
-  const [result, setResult] = useState<AnalysisResult | null>(null);
-  const [lastFormData, setLastFormData] = useState<AnalysisFormData | null>(null);
-
-  const handleAnalyze = useCallback(async (data: AnalysisFormData) => {
-    setStatus("loading");
-    setResult(null);
-    setLastFormData(data);
-
-    try {
-      const analysis = await analyzeCompany(data);
-      setResult(analysis);
-      setStatus("success");
-    } catch {
-      setStatus("error");
-    }
-  }, []);
-
-  const handleRetry = useCallback(() => {
-    if (lastFormData) {
-      handleAnalyze(lastFormData);
-    }
-  }, [lastFormData, handleAnalyze]);
+  // Job state is provided above the router, so an in-flight analysis survives
+  // navigating to another tab and back.
+  const { status, result, run, retry } = useAnalysisJob();
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="container max-w-6xl flex items-center gap-3 h-14 px-4">
-          <Activity className="h-5 w-5 text-primary" />
-          <h1 className="text-lg font-bold tracking-tight text-foreground">
-            SEC Analyzer
-          </h1>
-          <span className="ml-auto text-xs font-mono text-muted-foreground/50 hidden sm:block">
-            v0.1 — frontend only
-          </span>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="container max-w-6xl px-4 py-8">
         <div className="grid gap-8 lg:grid-cols-[340px_1fr]">
@@ -57,7 +25,7 @@ const Index = () => {
                 Enter a company to score across financials, risk, moat, and more.
               </p>
             </div>
-            <AnalyzeCompanyForm onSubmit={handleAnalyze} isLoading={status === "loading"} />
+            <AnalyzeCompanyForm onSubmit={run} isLoading={status === "loading"} />
           </aside>
 
           <section className="min-h-[400px]">
@@ -68,7 +36,7 @@ const Index = () => {
             )}
             {status === "loading" && <LoadingState />}
             {status === "success" && result && <ResultsPanel result={result} />}
-            {status === "error" && <ErrorState onRetry={handleRetry} />}
+            {status === "error" && <ErrorState onRetry={retry} />}
           </section>
         </div>
       </main>

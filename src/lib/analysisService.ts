@@ -5,8 +5,7 @@ import type {
   BackendAnalysisResponse,
 } from "@/types/analysis";
 import { transformBackendResponse } from "@/lib/transformAnalysis";
-
-const API_BASE = "https://sec-analyzer-g9m4.onrender.com";
+import { API_BASE } from "@/lib/apiConfig";
 
 function buildRequest(data: AnalysisFormData): BackendAnalysisRequest {
   return { company_name: data.companyName, ticker: data.ticker || null };
