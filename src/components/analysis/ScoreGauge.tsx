@@ -5,6 +5,12 @@ interface ScoreGaugeProps {
   maxScore: number;
   label: string;
   size?: "sm" | "lg";
+  /**
+   * When true, a high score is bad (e.g. risk, geopolitics). The color reflects
+   * that inversion and a "higher = worse" hint is shown, while the arc still
+   * fills to the true magnitude and the displayed number stays truthful.
+   */
+  higherIsWorse?: boolean;
 }
 
 const getScoreColor = (ratio: number): string => {
@@ -23,8 +29,11 @@ const getStrokeColor = (ratio: number): string => {
   return "hsl(var(--score-bad))";
 };
 
-const ScoreGauge = ({ score, maxScore, label, size = "sm" }: ScoreGaugeProps) => {
+const ScoreGauge = ({ score, maxScore, label, size = "sm", higherIsWorse = false }: ScoreGaugeProps) => {
   const ratio = score / maxScore;
+  // Color encodes "goodness", which is inverted for higher-is-worse metrics; the
+  // arc length below still tracks the true magnitude (ratio).
+  const colorRatio = higherIsWorse ? 1 - ratio : ratio;
   const isLarge = size === "lg";
   const svgSize = isLarge ? 140 : 80;
   const strokeWidth = isLarge ? 8 : 5;
@@ -49,7 +58,7 @@ const ScoreGauge = ({ score, maxScore, label, size = "sm" }: ScoreGaugeProps) =>
             cy={svgSize / 2}
             r={radius}
             fill="none"
-            stroke={getStrokeColor(ratio)}
+            stroke={getStrokeColor(colorRatio)}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeDasharray={circumference}
@@ -59,14 +68,21 @@ const ScoreGauge = ({ score, maxScore, label, size = "sm" }: ScoreGaugeProps) =>
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className={`font-mono font-bold ${getScoreColor(ratio)} ${isLarge ? "text-3xl" : "text-lg"}`}>
+          <span className={`font-mono font-bold ${getScoreColor(colorRatio)} ${isLarge ? "text-3xl" : "text-lg"}`}>
             {score}
           </span>
         </div>
       </div>
-      <span className={`text-muted-foreground font-medium ${isLarge ? "text-sm" : "text-xs"} uppercase tracking-wider`}>
-        {label}
-      </span>
+      <div className="flex flex-col items-center gap-0.5">
+        <span className={`text-muted-foreground font-medium ${isLarge ? "text-sm" : "text-xs"} uppercase tracking-wider`}>
+          {label}
+        </span>
+        {higherIsWorse && (
+          <span className="text-[10px] font-medium leading-none tracking-normal normal-case text-muted-foreground/50">
+            higher = worse
+          </span>
+        )}
+      </div>
     </div>
   );
 };

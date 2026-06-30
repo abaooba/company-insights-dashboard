@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import ScoreGauge from "./ScoreGauge";
-import type { SubScore } from "@/types/analysis";
+import type { ScoreCategory, SubScore } from "@/types/analysis";
+
+// Dimensions where a high score is bad — rendered with inverted color + a hint.
+const HIGHER_IS_WORSE_CATEGORIES = new Set<ScoreCategory>(["risk", "geopolitics"]);
 
 interface ScoreCardGridProps {
   overallScore: number;
@@ -24,7 +27,13 @@ const ScoreCardGrid = ({ overallScore, maxScore, subScores }: ScoreCardGridProps
             <div className="h-px sm:h-24 w-full sm:w-px bg-border" />
             <div className="flex flex-wrap justify-center gap-6 flex-1">
               {subScores.map((sub) => (
-                <ScoreGauge key={sub.category} score={sub.score} maxScore={sub.maxScore} label={sub.label} />
+                <ScoreGauge
+                  key={sub.category}
+                  score={sub.score}
+                  maxScore={sub.maxScore}
+                  label={sub.label}
+                  higherIsWorse={HIGHER_IS_WORSE_CATEGORIES.has(sub.category)}
+                />
               ))}
             </div>
           </div>
