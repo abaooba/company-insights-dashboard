@@ -10,6 +10,7 @@ import WeaknessesList from "./WeaknessesList";
 import RecentChangesList from "./RecentChangesList";
 import SummaryCard from "./SummaryCard";
 import LlmAnalysisCard from "./LlmAnalysisCard";
+import ScoringBreakdown from "./details/ScoringBreakdown";
 import type { AnalysisResult } from "@/types/analysis";
 
 interface ResultsPanelProps {
@@ -71,6 +72,9 @@ const ResultsPanel = ({ result }: ResultsPanelProps) => {
 
       {/* Summary */}
       <SummaryCard summary={result.summary} />
+
+      {/* Full per-scorer breakdown: category math + evidence behind every score */}
+      {result.details && <ScoringBreakdown details={result.details} />}
 
       <motion.p variants={item} className="text-xs text-muted-foreground/50 font-mono text-right">
         Analyzed {new Date(result.analyzedAt).toLocaleString()}
